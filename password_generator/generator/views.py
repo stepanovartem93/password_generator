@@ -8,8 +8,18 @@ def home(request):
     return render(request, 'generator/home.html')
 
 def password(request):
+    
     characters = list('abcdefghijklmnopqrstuvwxyz')
-    length = 10
+
+    if request.GET.get('uppercase'): #проверяет наличие отметок чекбоксов на странице
+        characters.extend(list('ABCDEFGHIJKLMNOPQRSTUVWXYZ'))
+    if request.GET.get('special'):
+        characters.extend(list('!@#$%^&*()_'))
+    if request.GET.get('numbers'):
+        characters.extend(list('1234567890'))
+    
+    length = int(request.GET.get('length', 12)) #длина присваивается исходя из выбора пользователя на странице
+
     thepassword = ''
     
     for x in range(length):
